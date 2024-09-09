@@ -14,6 +14,10 @@ export class UserRepository extends Repository<UserEntity> {
     super(UserEntity, dataSource.createEntityManager());
   }
 
+  async getUser(user: UserEntity): Promise<UserEntity> {
+    return this.findOne({ where: user });
+  }
+
   async createUser(auhtCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = auhtCredentialsDto;
 
@@ -34,5 +38,9 @@ export class UserRepository extends Repository<UserEntity> {
         throw new InternalServerErrorException();
       }
     }
+  }
+
+  async getUserByUsername(username: string): Promise<UserEntity> {
+    return this.findOne({ where: { username: username } });
   }
 }

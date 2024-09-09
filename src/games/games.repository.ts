@@ -30,12 +30,12 @@ export class GameRepository extends Repository<GameEntity> {
     });
 
     if (status) {
-      query.andWhere('(game.statusdss = :status)', { status });
+      query.andWhere('(game.status = :status)', { status });
     }
 
     if (search) {
       query.andWhere(
-        '(game.owner.username LIKE :search OR game.player.username LIKE :search)',
+        '(owner.username LIKE :search OR player.username LIKE :search)',
         {
           search: `%${search}%`,
         },
@@ -51,6 +51,10 @@ export class GameRepository extends Repository<GameEntity> {
       );
       throw new InternalServerErrorException();
     }
+  }
+
+  public async getAllGames(): Promise<GameEntity[]> {
+    return this.find();
   }
 
   public async getGameById(id: string, user: UserEntity): Promise<GameEntity> {

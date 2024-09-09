@@ -1,24 +1,25 @@
 import { DataSource } from 'typeorm';
 import { Global, Logger, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 const logger = new Logger('TypeOrmModule');
 
 @Global()
 @Module({
-  imports: [],
+  imports: [ConfigModule],
   providers: [
     {
       provide: DataSource,
-      inject: [],
-      useFactory: async () => {
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         try {
           const dataSource = new DataSource({
             type: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'postgres',
-            password: 'postgres',
-            database: 'memory-game',
+            host: configService.get('DB_HOST'),
+            port: configService.get('DB_PORT'),
+            username: configService.get('DB_USERNAME'),
+            password: configService.get('DB_PASSWORD'),
+            database: configService.get('DB_DATABASE'),
             synchronize: true,
             entities: [`${__dirname}/../**/**.entity{.ts,.js}`],
           });

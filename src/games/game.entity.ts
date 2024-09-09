@@ -18,7 +18,7 @@ export class GameEntity {
   @Column({ default: GameStatus.ACTIVE })
   status: GameStatus;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ default: 0 })

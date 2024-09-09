@@ -29,6 +29,10 @@ export class GamesService {
     return found;
   }
 
+  async getAllGames(): Promise<GameEntity[]> {
+    return this.gameRepository.getAllGames();
+  }
+
   async createGame(
     createGameDto: CreateGameDto,
     user: UserEntity,

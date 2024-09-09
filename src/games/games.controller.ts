@@ -37,7 +37,12 @@ export class GamesController {
     return this.gamesService.getGames(filterDto, user);
   }
 
-  @Get('/:id')
+  @Get('/all')
+  getAllGames(): Promise<GameEntity[]> {
+    return this.gamesService.getAllGames();
+  }
+
+  @Get('/id/:id')
   async getGameById(
     @Param('id') id: string,
     @GetUser() user: UserEntity,
